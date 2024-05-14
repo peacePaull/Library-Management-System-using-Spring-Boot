@@ -28,4 +28,8 @@ public class Patron {
 
     @OneToMany(mappedBy = "patron")
     private List<BorrowingRecord> borrowingRecords;
+
+    public Patron(Long id) {
+        this.id = id;
+    }
 }
