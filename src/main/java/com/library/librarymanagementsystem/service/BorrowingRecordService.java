@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class BorrowingRecordService {
@@ -24,11 +25,11 @@ public class BorrowingRecordService {
         return borrowingRecordRepository.save(borrowingRecord);
     }
 
-    public BorrowingRecord returnBook(Long bookId, Long patronId) {
+    public Optional<BorrowingRecord> returnBook(Long bookId, Long patronId) {
         return borrowingRecordRepository.findByBookIdAndPatronIdAndReturnDateIsNull(bookId, patronId)
                 .map(record -> {
                     record.setReturnDate(LocalDate.now());
                     return borrowingRecordRepository.save(record);
-                }).orElseThrow(() -> new RuntimeException("Borrowing record not found"));
+                });
     }
 }

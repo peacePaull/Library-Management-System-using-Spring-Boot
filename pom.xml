@@ -62,6 +62,17 @@
 			<version>1.18.26</version>
 			<scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>com.library</groupId>
+            <artifactId>library-management-system</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>6.2.4</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
