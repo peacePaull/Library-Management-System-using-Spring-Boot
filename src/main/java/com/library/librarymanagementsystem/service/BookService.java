@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,21 +18,25 @@ public class BookService {
     private BookRepository bookRepository;
 
     @Cacheable("books")
+    @Transactional(readOnly = true)
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
     @Cacheable(value = "books", key = "#id")
+    @Transactional(readOnly = true)
     public Optional<Book> getBookById(Long id) {
         return bookRepository.findById(id);
     }
 
     @CacheEvict(value = "books", allEntries = true)
+    @Transactional
     public Book addBook(Book book) {
         return bookRepository.save(book);
     }
 
     @CacheEvict(value = "books", key = "#id")
+    @Transactional
     public Book updateBook(Long id, Book bookDetails) {
         return bookRepository.findById(id).map(book -> {
             book.setTitle(bookDetails.getTitle());
@@ -43,6 +48,7 @@ public class BookService {
     }
 
     @CacheEvict(value = "books", key = "#id")
+    @Transactional
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
     }
